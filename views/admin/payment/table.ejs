@@ -1,0 +1,68 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Tipe Pembayaran</th>
+            <th>Banks</th>
+            <th>Status</th>
+            <th>Aksi</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+        <% for(let a=0; a<payment.length;a++){ %>
+            <tr>
+                <td>
+                    <%= a+1 %>
+                </td>
+                <td>
+                    <%= payment[a].tipe %>
+                </td>
+                <td>
+                    <% payment[a].bank.forEach(x => { %>
+                        <span class="badge badge-warning">
+                       <%=x.name %> - <%=x.namaBank%> - <%=x.noRekening%> 
+                        </span> 
+                       <%  }) %>
+                </td>
+                <td>
+                    <% if(payment[a].status === "Y" ){%>
+                    <span class="badge badge-success">
+                        Aktif
+                    </span>
+                    <% } else { %>
+                        <span class="badge badge-warning">
+                            Non Aktif
+                        </span>
+                        <% } %>
+                </td>
+                <td>
+                    <form action ="/payment/status/<%= payment[a]._id%>?_method=PUT" method="POST"  style="display: inline-block;">
+                    <button class="btn btn-primary btn-sm">
+                        <i class="fas fa-folder">
+                            <% if(payment[a].status === "Y"){%>
+                            Non-aktif
+                            <%} else {%>
+                                Aktif
+                            <% } %>
+                        </i>
+                    </button>
+                    </form>
+                    <a href ='/payment/edit/<%=payment[a]._id%>' class="btn btn-info btn-sm">
+                        
+                        <i class="fas fa-pencil-alt"></i>
+                        Ubah
+                    </a>
+                    <form action="/payment/delete/<%=payment[a]._id%>?_method=`delete`" method="POST" style="display: inline-block">
+                    <button class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                        Hapus
+                    </button>
+                    </form>
+                </td>
+              
+            </tr>
+            <% } %>
+
+    </tbody>
+</table>

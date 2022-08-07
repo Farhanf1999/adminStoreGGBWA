@@ -1,0 +1,78 @@
+<table id="example2" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>No.</th>
+            <th>Nama Game</th>
+            <th>Kategori</th>
+            <th>Nominal</th>
+            <th>Status</th>
+            <th>Gambar</th>
+            <th>Aksi</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% for(let a=0; a<voucher.length;a++){ %>
+            <tr>
+                <td>
+                    <%= a+1 %>
+                </td>
+                <td>
+                    <%= voucher[a].name %>
+                </td>
+                <td>
+                    <%= voucher[a]?.category?.name ?? '-' %>
+                </td>
+                <!--(jika category !) ?.category? => if (!category.->index = ?? echo) -->
+                <td>
+                    <% voucher[a].nominals.forEach(x=> { %>
+                        <span class="badge badge-warning">
+                            <%= x.coinName %> <%= x.coinQuantity %>
+                        </span>
+                        <% }) %>
+                </td>
+                <td>
+                <% if (voucher[a].status== 'Y' ){ %>
+                    <span class="badge badge-success">
+                        aktif
+                    </span>
+                    <% }else{%>
+                    <span class="badge badge-danger">
+                        Tidak Aktif
+                    </span>
+                        <% }%>
+                </td>
+                        <td width="120" height="120">
+                            <img src='http://localhost:3000/uploads/<%= voucher[a].thumbnial %>' width="100%"
+                                height="100%" />
+                        </td>
+
+                        <td width="23%" height="23%">
+                            <form action="/voucher/status/<%= voucher[a]._id%>?_method=PUT" method="POST" style="display: inline-block;">
+                                <button class="btn btn-primary btn-sm">
+                                    <i class="fas fa-folder">
+                                        <% if (voucher[a].status== 'Y' ){ %>
+                                                Non-aktif
+                                            <% }else { %>
+                                                    Aktif
+                                                <% } %>
+                                    </i>
+                                </button>
+                            </form>
+                            <a href='/voucher/edit/<%= voucher[a]._id %>' class='btn btn-info btn-sm' >
+                                <i class='fas fa-pencil-alt'></i>
+                                Ubah
+                            </a>
+                            <form action="/voucher/delete/<%= voucher[a]._id %>?_method='delete'" method='POST' style="display: inline-block;">
+                               
+                                    <button class='btn btn-danger btn-sm'>
+                                        <i class='fas fa-trash'></i>
+                                        Hapus
+                                    </button>
+                                
+                            </form>
+                        </td>
+            </tr>
+            <% } %>
+
+    </tbody>
+</table>
